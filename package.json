@@ -1,0 +1,23 @@
+{
+  "name": "vaca-amarela",
+  "version": "0.1.0",
+  "description": "Aplicação web responsiva para gestão do rebanho de pequenos pecuaristas",
+  "main": "src/server.js",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:setup": "node scripts/db-setup.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}
