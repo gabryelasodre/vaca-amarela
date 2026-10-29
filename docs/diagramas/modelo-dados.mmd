@@ -1,0 +1,59 @@
+erDiagram
+  PROPRIEDADE ||--o{ USUARIO : possui
+  PROPRIEDADE ||--o{ LOTE : organiza
+  PROPRIEDADE ||--o{ ANIMAL : possui
+  LOTE ||--o{ ANIMAL : "lote atual"
+  ANIMAL ||--o{ MOVIMENTACAO_LOTE : "histórico de lotes"
+  LOTE ||--o{ MOVIMENTACAO_LOTE : destino
+  ANIMAL ||--o{ PESAGEM : tem
+  LOTE ||--o{ MANEJO_COLETIVO : recebe
+  MANEJO_COLETIVO ||--o{ MANEJO : "gera um por animal"
+  ANIMAL ||--o{ MANEJO : recebe
+  ANIMAL ||--o{ EVENTO_REPRODUTIVO : tem
+  ANIMAL |o--o{ ANIMAL : "mãe de"
+  ANIMAL ||--o| SAIDA : "pode ter"
+
+  ANIMAL {
+    int id PK
+    int propriedade_id FK
+    string numero "número pintado (obrigatório)"
+    string nome
+    string brinco "opcional"
+    string sinais "pelagem, marcas"
+    string categoria
+    int lote_id FK
+    int mae_id FK
+    string situacao
+  }
+  MOVIMENTACAO_LOTE {
+    int id PK
+    int animal_id FK
+    int lote_origem_id FK
+    int lote_destino_id FK
+    date data
+  }
+  PESAGEM {
+    int id PK
+    int animal_id FK
+    date data
+    decimal peso_kg
+    uuid id_requisicao UK
+  }
+  MANEJO_COLETIVO {
+    int id PK
+    int lote_id FK
+    string produto
+    date data_aplicacao
+    date proxima_aplicacao
+    uuid id_requisicao UK
+  }
+  MANEJO {
+    int id PK
+    int animal_id FK
+    int manejo_coletivo_id FK "nulo se individual"
+    string tipo
+    string produto
+    date data_aplicacao
+    date proxima_aplicacao
+    uuid id_requisicao UK
+  }

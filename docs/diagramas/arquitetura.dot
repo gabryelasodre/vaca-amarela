@@ -1,0 +1,35 @@
+digraph arq {
+  graph [rankdir=LR, fontname="Inter", fontsize=13, nodesep=0.4, ranksep=0.6, pad=0.3, compound=true, bgcolor="white"];
+  node  [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#3A3A3A", fontname="Inter", fontsize=12, margin="0.18,0.1"];
+  edge  [color="#3A3A3A", fontname="Inter", fontsize=10, fontcolor="#444444", arrowsize=0.7];
+
+  subgraph cluster_user { label="Navegador (cliente)"; style="rounded,dashed"; color="#9A9A9A";
+    cel [label="Smartphone Android\nGoogle Chrome\n(uso principal, na sede – Wi-Fi Starlink)"];
+    note [label="Notebook\nChrome / Edge"];
+  }
+
+  subgraph cluster_aws { label="AWS – região sa-east-1 (São Paulo)"; style="rounded,filled"; fillcolor="#FFF8DB"; color="#C9A400";
+    subgraph cluster_ec2 { label="Amazon EC2 t4g.micro (Ubuntu 24.04)"; style="rounded,filled"; fillcolor="#FFFFFF"; color="#8A6D00";
+      nginx [label="Nginx\nHTTPS (Let's Encrypt)\ncompressão gzip e cache\nde CSS/JS", fillcolor="#F3F3F3"];
+      subgraph cluster_node { label="Node.js 20 + Express  (processo mantido pelo PM2)"; style="rounded"; color="#555555";
+        rotas [label="Rotas\n(routes/)"];
+        ctrl  [label="Controllers\nvalidação, regras (GMD,\nalertas), propriedade\ndo usuário logado"];
+        model [label="Models\nSQL parametrizado\n(biblioteca pg)"];
+        views [label="Views EJS + Bootstrap\nHTML renderizado\nno servidor"];
+      }
+    }
+    rds [label="Amazon RDS for PostgreSQL 16\ndb.t4g.micro · 20 GB\nbackup automático diário\n(retenção 7 dias)", shape=cylinder, fillcolor="#EEF4FF", margin="0.2,0.15"];
+  }
+
+  gh [label="GitHub\nrepositório vaca-amarela\n(código-fonte)", fillcolor="#F3F3F3"];
+  dev [label="Ambiente de desenvolvimento\nNode.js + PostgreSQL local\n(docker compose)", fillcolor="#F3F3F3"];
+
+  cel -> nginx [label=" HTTPS (443)", lhead=cluster_ec2];
+  note -> nginx [label=" HTTPS (443)"];
+  nginx -> rotas [label=" proxy reverso\n porta 3000"];
+  rotas -> ctrl; ctrl -> model; ctrl -> views [dir=both, arrowtail=none, label=" dados"];
+  views -> nginx [label=" página HTML", style=dashed, constraint=false];
+  model -> rds [label=" SSL · porta 5432\n (só o EC2 tem acesso)"];
+  dev -> gh [label=" git push"];
+  gh -> rotas [label=" publicação:\n git pull + npm ci\n + pm2 restart", lhead=cluster_node, style=dashed];
+}

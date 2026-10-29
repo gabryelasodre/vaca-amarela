@@ -1,0 +1,56 @@
+digraph fluxo {
+  graph [rankdir=TB, fontname="Inter", fontsize=13, nodesep=0.35, ranksep=0.45, pad=0.3, bgcolor="white", newrank=true];
+  node  [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#3A3A3A", fontname="Inter", fontsize=12, margin="0.18,0.08"];
+  edge  [color="#3A3A3A", fontname="Inter", fontsize=10, fontcolor="#444444", arrowsize=0.7];
+
+  inicio [label="Abrir o endereço\nno navegador", shape=oval, fillcolor="#FFF3BF"];
+  login  [label="Tela de login\n(e-mail e senha)"];
+  erro   [label="Mensagem de erro\n(e-mail mantido)", fillcolor="#FDECEC", color="#B42318"];
+  painel [label="Painel inicial\nresumo do rebanho + alertas", fillcolor="#FFE680", penwidth=1.6];
+
+  subgraph cluster_animais { label="Área Animais"; style="rounded,dashed"; color="#9A9A9A"; fontcolor="#555555";
+    lista [label="Lista de animais\nbusca por número ou nome\nfiltros: categoria, lote, situação"];
+    ficha [label="Ficha do animal\ndados · pesagens e GMD\nhistórico sanitário"];
+    fanimal [label="Formulário de animal\n(cadastrar / editar / inativar)", fillcolor="#EEF4FF"];
+    fpesagem [label="Formulário de pesagem", fillcolor="#EEF4FF"];
+  }
+  subgraph cluster_manejos { label="Área Manejos"; style="rounded,dashed"; color="#9A9A9A"; fontcolor="#555555";
+    manejos [label="Manejos próximos\ne atrasados"];
+    fmanejo [label="Formulário de manejo\npor animal ou por lote", fillcolor="#EEF4FF"];
+  }
+  mais [label="Mais\nlotes · conta · Sair"];
+
+  subgraph cluster_salvar { label="Ao salvar (comportamento comum a todos os formulários)"; style="rounded,filled"; fillcolor="#FAFAF7"; color="#9A9A9A"; fontcolor="#333333";
+    salvar [label="Salvar", shape=diamond, style="filled", fillcolor="#FFFFFF", margin="0.05,0.05"];
+    invalido [label="Dados inválidos:\naviso no campo,\ndados mantidos", fillcolor="#FDECEC", color="#B42318"];
+    semconexao [label="Sem conexão:\naviso + dados mantidos\nna tela e no aparelho;\n'Tentar novamente'", fillcolor="#FDECEC", color="#B42318"];
+    salvo [label="Confirmação\n\"Salvo com sucesso\"", fillcolor="#E7F6EC", color="#1E7B3A"];
+  }
+
+  inicio -> login;
+  login -> painel [label=" credenciais válidas"];
+  login -> erro [label=" inválidas"];
+  erro -> login [style=dashed];
+
+  painel -> lista [label=" menu Animais"];
+  painel -> manejos [label=" menu Manejos\n ou toque no alerta"];
+  painel -> mais [label=" menu Mais"];
+  mais -> login [label=" Sair", style=dashed, constraint=false];
+
+  lista -> ficha [label=" selecionar"];
+  lista -> fanimal [label=" + Cadastrar"];
+  ficha -> fanimal [label=" Editar / Inativar"];
+  ficha -> fpesagem [label=" Registrar pesagem"];
+  ficha -> fmanejo [label=" Registrar manejo", constraint=false];
+  manejos -> fmanejo [label=" + Registrar manejo"];
+  manejos -> manejos [label=" Marcar como\n realizado"];
+
+  fanimal -> salvar; fpesagem -> salvar; fmanejo -> salvar;
+  salvar -> invalido [label=" inválido"];
+  salvar -> semconexao [label=" falha de rede"];
+  salvar -> salvo [label=" sucesso"];
+  invalido -> salvar [style=dashed, label=" corrigir"];
+  semconexao -> salvar [style=dashed, label=" reenviar com o\n mesmo identificador\n (sem duplicar)"];
+  salvo -> ficha [label=" volta à ficha\n (animal / pesagem)", color="#1E7B3A", fontcolor="#1E7B3A", constraint=false];
+  salvo -> manejos [label=" volta à lista\n (manejo)", color="#1E7B3A", fontcolor="#1E7B3A", constraint=false];
+}
