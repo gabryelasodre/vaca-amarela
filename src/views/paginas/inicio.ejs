@@ -1,0 +1,34 @@
+<%- include('../partials/topo') %>
+<h1 class="titulo-pagina">Resumo do rebanho</h1>
+
+<section class="cartao destaque" aria-label="Total de animais">
+  <span class="rotulo">Animais ativos</span>
+  <strong class="numero-grande"><%= total %></strong>
+</section>
+
+<div class="grade-cartoes">
+  <section class="cartao" aria-labelledby="t-categorias">
+    <h2 id="t-categorias">Por categoria</h2>
+    <% if (categorias.length === 0) { %>
+      <p class="vazio">Nenhum animal cadastrado ainda.</p>
+    <% } else { %>
+      <ul class="lista-categorias">
+        <% categorias.forEach(function (c) { %>
+          <li><span class="text-capitalize"><%= c.categoria %></span><strong><%= c.total %></strong></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+
+  <section class="cartao" aria-labelledby="t-alertas">
+    <h2 id="t-alertas">Alertas de manejo</h2>
+    <p class="vazio">Os alertas de vacinas e vermífugos serão exibidos aqui (RF06 – Sprint 03).</p>
+  </section>
+</div>
+
+<div class="acoes-rapidas">
+  <a class="btn btn-acao" href="/animais">+ Cadastrar animal</a>
+  <a class="btn btn-acao secundario" href="/animais">Registrar pesagem</a>
+  <a class="btn btn-acao secundario" href="/manejos">Registrar manejo</a>
+</div>
+<%- include('../partials/rodape') %>

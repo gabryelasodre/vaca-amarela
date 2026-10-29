@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F2C200">
+  <title><%= titulo %> · Vaca Amarela</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="barra-topo">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a class="marca" href="/"><span class="marca-icone" aria-hidden="true"></span>Vaca Amarela</a>
+      <%- include('menu', { classe: 'menu-largo d-none d-md-flex' }) %>
+    </div>
+  </header>
+  <main class="container conteudo">
