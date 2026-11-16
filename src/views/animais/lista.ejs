@@ -5,8 +5,10 @@
 </div>
 
 <div class="layout-lista">
-  <form class="filtros cartao" method="get" action="/animais" role="search">
-    <label class="form-label" for="busca">Buscar por número ou nome</label>
+  <details class="filtros cartao" <%= (filtros.busca || filtros.categoria || filtros.loteId || filtros.situacao !== 'ativos') ? 'open' : '' %>>
+  <summary>Buscar e filtrar<% if (filtros.busca || filtros.categoria || filtros.loteId || filtros.situacao !== 'ativos') { %> <span class="filtro-ativo">(filtro aplicado)</span><% } %></summary>
+  <form method="get" action="/animais" role="search">
+    <label class="form-label mt-2" for="busca">Buscar por número ou nome</label>
     <input class="form-control campo" type="search" id="busca" name="busca" value="<%= filtros.busca %>" placeholder="Ex.: 12">
     <div class="filtros-linha">
       <div>
@@ -33,7 +35,9 @@
       </div>
     </div>
     <button class="btn btn-acao secundario w-100 mt-3" type="submit">Filtrar</button>
+    <a class="d-block text-center mt-2" href="/animais">Limpar filtros</a>
   </form>
+  </details>
 
   <section aria-live="polite">
     <% if (animais.length === 0) { %>
@@ -59,4 +63,8 @@
     <% } %>
   </section>
 </div>
+<script>
+  // Em telas grandes os filtros ficam sempre abertos na coluna lateral.
+  if (window.matchMedia('(min-width: 768px)').matches) document.querySelector('.filtros').open = true;
+</script>
 <%- include('../partials/rodape') %>

@@ -89,3 +89,6 @@ form { margin: 0; }
   .grade-form .largura-total { grid-column: 1 / -1; }
   .formulario .btn-acao { width: auto !important; min-width: 180px; display: inline-flex; margin-right: .5rem; }
 }
+
+.filtros summary { font-weight: 700; cursor: pointer; min-height: 32px; display: flex; align-items: center; gap: .35rem; }
+.filtro-ativo { font-weight: 600; color: var(--amarelo-escuro); font-size: .9rem; }

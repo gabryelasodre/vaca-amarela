@@ -8,6 +8,7 @@ const sql = postgres(process.env.DATABASE_URL, {
   max: 5,                 // instância pequena (db.t4g.micro) – poucas conexões
   idle_timeout: 30,
   onnotice: () => {},
+  connection: { TimeZone: 'America/Sao_Paulo' },   // CURRENT_DATE no horário de Brasília
   // datas (tipo date) chegam como texto AAAA-MM-DD, sem conversão de fuso horário
   types: { date: { to: 1082, from: [1082], serialize: (x) => x, parse: (x) => x } },
 });
