@@ -15,3 +15,6 @@ Thumbs.db
 # Cópias de segurança do banco (nunca versionar dados reais)
 backups/
 *.dump
+
+# Estado local do script de publicação no GitHub
+.github-quadro.env
