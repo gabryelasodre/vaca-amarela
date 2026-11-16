@@ -123,3 +123,12 @@ CREATE INDEX IF NOT EXISTS idx_animal_propriedade ON animal (propriedade_id, sit
 CREATE INDEX IF NOT EXISTS idx_pesagem_animal_data ON pesagem (animal_id, data);
 CREATE INDEX IF NOT EXISTS idx_manejo_proxima ON manejo (proxima_aplicacao) WHERE proxima_aplicacao IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_movimentacao_animal ON movimentacao_lote (animal_id, data);
+
+-- Sprint 02 ---------------------------------------------------------------
+-- Sessões de login guardadas no banco (sobrevivem a reinícios do servidor).
+CREATE TABLE IF NOT EXISTS sessao (
+  sid       VARCHAR(64) PRIMARY KEY,
+  dados     JSONB NOT NULL,
+  expira_em TIMESTAMPTZ NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_sessao_expira ON sessao (expira_em);

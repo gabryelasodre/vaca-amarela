@@ -3,11 +3,11 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { pool } = require('../src/config/db');
+const sql = require('../src/config/db');
 
 async function executar(arquivo) {
-  const sql = fs.readFileSync(path.join(__dirname, '..', 'db', arquivo), 'utf8');
-  await pool.query(sql);
+  const texto = fs.readFileSync(path.join(__dirname, '..', 'db', arquivo), 'utf8');
+  await sql.unsafe(texto);          // arquivo local do projeto, sem dados do usuário
   console.log(`✔ ${arquivo} executado`);
 }
 
@@ -19,6 +19,6 @@ async function executar(arquivo) {
     console.error('Falha ao preparar o banco:', erro.message);
     process.exitCode = 1;
   } finally {
-    await pool.end();
+    await sql.end();
   }
 })();

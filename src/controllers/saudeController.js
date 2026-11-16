@@ -1,14 +1,14 @@
-const db = require('../config/db');
+const sql = require('../config/db');
 
 // Verifica se a aplicação está no ar e se consegue acessar o banco de dados.
 async function verificar(req, res) {
   const inicio = Date.now();
   try {
-    const { rows } = await db.query('SELECT version() AS versao, now() AS horario');
+    const [linha] = await sql`SELECT version() AS versao`;
     res.json({
       aplicacao: 'ok',
       banco: 'ok',
-      versao_banco: rows[0].versao.split(',')[0],
+      versao_banco: linha.versao.split(',')[0],
       tempo_resposta_ms: Date.now() - inicio,
     });
   } catch (erro) {
