@@ -1,0 +1,22 @@
+<%- include('../partials/topo') %>
+<h1 class="titulo-pagina">Lotes</h1>
+<section class="cartao">
+  <ul class="lista-categorias">
+    <% lotes.forEach(function (l) { %>
+      <li><span><strong><%= l.nome %></strong><% if (l.descricao) { %><br><small class="text-muted"><%= l.descricao %></small><% } %></span>
+          <a href="/animais?lote=<%= l.id %>"><%= l.animais %> animais</a></li>
+    <% }) %>
+  </ul>
+</section>
+<section class="cartao">
+  <h2>Novo lote</h2>
+  <% if (erro) { %><div class="aviso-erro" role="alert"><%= erro %></div><% } %>
+  <form method="post" action="/lotes">
+    <label class="form-label" for="nome">Nome</label>
+    <input class="form-control campo" id="nome" name="nome" maxlength="60" value="<%= valores.nome || '' %>" required>
+    <label class="form-label mt-3" for="descricao">Descrição (opcional)</label>
+    <input class="form-control campo" id="descricao" name="descricao" maxlength="200" value="<%= valores.descricao || '' %>">
+    <button class="btn btn-acao w-100 mt-3" type="submit">Criar lote</button>
+  </form>
+</section>
+<%- include('../partials/rodape') %>

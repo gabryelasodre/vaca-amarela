@@ -1,0 +1,62 @@
+<%- include('../partials/topo') %>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="titulo-pagina">Animais <small class="text-muted">(<%= animais.length %>)</small></h1>
+  <a class="btn btn-acao btn-novo" href="/animais/novo">+ Cadastrar</a>
+</div>
+
+<div class="layout-lista">
+  <form class="filtros cartao" method="get" action="/animais" role="search">
+    <label class="form-label" for="busca">Buscar por número ou nome</label>
+    <input class="form-control campo" type="search" id="busca" name="busca" value="<%= filtros.busca %>" placeholder="Ex.: 12">
+    <div class="filtros-linha">
+      <div>
+        <label class="form-label" for="categoria">Categoria</label>
+        <select class="form-select campo" id="categoria" name="categoria">
+          <option value="">Todas</option>
+          <% categorias.forEach(function (c) { %><option value="<%= c %>" <%= filtros.categoria === c ? 'selected' : '' %>><%= c %></option><% }) %>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="lote">Lote</label>
+        <select class="form-select campo" id="lote" name="lote">
+          <option value="">Todos</option>
+          <% lotes.forEach(function (l) { %><option value="<%= l.id %>" <%= filtros.loteId === l.id ? 'selected' : '' %>><%= l.nome %></option><% }) %>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="situacao">Situação</label>
+        <select class="form-select campo" id="situacao" name="situacao">
+          <option value="ativos" <%= filtros.situacao === 'ativos' ? 'selected' : '' %>>Ativos</option>
+          <option value="inativos" <%= filtros.situacao === 'inativos' ? 'selected' : '' %>>Inativos</option>
+          <option value="todos" <%= filtros.situacao === 'todos' ? 'selected' : '' %>>Todos</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-acao secundario w-100 mt-3" type="submit">Filtrar</button>
+  </form>
+
+  <section aria-live="polite">
+    <% if (animais.length === 0) { %>
+      <div class="cartao vazio">Nenhum animal encontrado.</div>
+    <% } else { %>
+      <ul class="lista-animais cartao d-md-none">
+        <% animais.forEach(function (a) { %>
+          <li><a href="/animais/<%= a.id %>">
+            <strong>Nº <%= a.numero %><%= a.nome ? ' · ' + a.nome : '' %></strong>
+            <small><span class="text-capitalize"><%= a.categoria %></span> · <%= a.lote || 'sem lote' %><%= a.situacao !== 'ativo' ? ' · ' + a.situacao : '' %></small>
+          </a></li>
+        <% }) %>
+      </ul>
+      <table class="table tabela-animais d-none d-md-table cartao">
+        <thead><tr><th>Nº</th><th>Nome</th><th>Categoria</th><th>Sexo</th><th>Lote</th><th>Situação</th></tr></thead>
+        <tbody>
+          <% animais.forEach(function (a) { %>
+            <tr><td><a href="/animais/<%= a.id %>"><strong><%= a.numero %></strong></a></td><td><%= a.nome || '—' %></td>
+                <td class="text-capitalize"><%= a.categoria %></td><td><%= a.sexo %></td><td><%= a.lote || '—' %></td><td><%= a.situacao %></td></tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
+</div>
+<%- include('../partials/rodape') %>

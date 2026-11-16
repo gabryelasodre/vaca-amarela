@@ -57,3 +57,35 @@ body { background: var(--fundo); color: var(--texto); padding-bottom: 76px; }
   .grade-cartoes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .acoes-rapidas { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Sprint 02 – login, formulários, lista e ficha de animais */
+body.publico { padding-bottom: 0; }
+.propriedade { font-size: .8rem; font-weight: 600; max-width: 45%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cartao-login { max-width: 420px; margin: 2rem auto; }
+.campo { min-height: 48px; font-size: 1rem; }
+.aviso-sucesso { background: #E7F6EC; border: 1px solid #1E7B3A; color: #14532D; border-radius: 10px; padding: .75rem 1rem; margin-bottom: 1rem; font-weight: 600; }
+.aviso-erro { background: #FDECEC; border: 1px solid var(--alerta); color: #7A1A12; border-radius: 10px; padding: .75rem 1rem; margin-bottom: 1rem; font-weight: 600; }
+.erro-campo { color: var(--alerta); font-size: .9rem; font-weight: 600; margin-top: .25rem; }
+.btn-novo { min-height: 44px; padding: 0 1rem; }
+.filtros-linha { display: grid; gap: .5rem; margin-top: .75rem; }
+.lista-animais { list-style: none; padding: 0; }
+.lista-animais li { border-bottom: 1px solid var(--borda); }
+.lista-animais li:last-child { border-bottom: 0; }
+.lista-animais a { display: block; padding: .7rem .25rem; color: var(--texto); text-decoration: none; }
+.lista-animais small { display: block; color: var(--texto-suave); }
+.tabela-animais { padding: 0; overflow: hidden; }
+.tabela-animais th { background: #F1EEE4; }
+.grade-form { display: grid; gap: .9rem; }
+.voltar { display: inline-block; margin-bottom: .5rem; color: var(--texto); font-weight: 600; text-decoration: none; }
+.dados { display: grid; grid-template-columns: 7.5rem 1fr; gap: .35rem .75rem; margin: 0; }
+.dados dt { color: var(--texto-suave); font-weight: 600; }
+.dados dd { margin: 0; }
+.etiqueta-inativo { border: 2px solid var(--texto); border-radius: 6px; padding: .1rem .5rem; font-weight: 800; text-transform: uppercase; font-size: .8rem; }
+form { margin: 0; }
+
+@media (min-width: 768px) {
+  .layout-lista { display: grid; grid-template-columns: 260px 1fr; gap: 1rem; align-items: start; }
+  .grade-form { grid-template-columns: 1fr 1fr; }
+  .grade-form .largura-total { grid-column: 1 / -1; }
+  .formulario .btn-acao { width: auto !important; min-width: 180px; display: inline-flex; margin-right: .5rem; }
+}

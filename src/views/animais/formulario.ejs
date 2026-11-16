@@ -1,0 +1,82 @@
+<%- include('../partials/topo') %>
+<h1 class="titulo-pagina"><%= titulo %></h1>
+<% if (Object.keys(erros).length) { %>
+  <div class="aviso-erro" role="alert">Corrija os campos indicados. Os demais dados foram mantidos.</div>
+<% } %>
+<form class="cartao formulario" method="post" action="<%= acao %>" novalidate>
+  <div class="grade-form">
+    <div>
+      <label class="form-label" for="numero">Número pintado *</label>
+      <input class="form-control campo <%= erros.numero ? 'is-invalid' : '' %>" id="numero" name="numero" maxlength="12" value="<%= animal.numero || '' %>" inputmode="text" required>
+      <%- include('../partials/erro-campo', { campo: 'numero' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="nome">Nome</label>
+      <input class="form-control campo <%= erros.nome ? 'is-invalid' : '' %>" id="nome" name="nome" maxlength="60" value="<%= animal.nome || '' %>">
+      <%- include('../partials/erro-campo', { campo: 'nome' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="sexo">Sexo *</label>
+      <select class="form-select campo <%= erros.sexo ? 'is-invalid' : '' %>" id="sexo" name="sexo" required>
+        <option value="">Escolha</option>
+        <option value="F" <%= animal.sexo === 'F' ? 'selected' : '' %>>Fêmea</option>
+        <option value="M" <%= animal.sexo === 'M' ? 'selected' : '' %>>Macho</option>
+      </select>
+      <%- include('../partials/erro-campo', { campo: 'sexo' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="categoria">Categoria *</label>
+      <select class="form-select campo <%= erros.categoria ? 'is-invalid' : '' %>" id="categoria" name="categoria" required>
+        <option value="">Escolha</option>
+        <% categorias.forEach(function (c) { %><option value="<%= c %>" <%= animal.categoria === c ? 'selected' : '' %>><%= c %></option><% }) %>
+      </select>
+      <%- include('../partials/erro-campo', { campo: 'categoria' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="lote_id">Lote</label>
+      <select class="form-select campo <%= erros.lote_id ? 'is-invalid' : '' %>" id="lote_id" name="lote_id">
+        <option value="">Sem lote</option>
+        <% lotes.forEach(function (l) { %><option value="<%= l.id %>" <%= Number(animal.lote_id) === l.id ? 'selected' : '' %>><%= l.nome %></option><% }) %>
+      </select>
+      <%- include('../partials/erro-campo', { campo: 'lote_id' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="raca">Raça</label>
+      <input class="form-control campo" id="raca" name="raca" maxlength="60" value="<%= animal.raca || '' %>">
+    </div>
+    <div>
+      <label class="form-label" for="data_nascimento">Data de nascimento</label>
+      <input class="form-control campo <%= erros.data_nascimento ? 'is-invalid' : '' %>" type="date" id="data_nascimento" name="data_nascimento" max="<%= hoje %>" value="<%= animal.data_nascimento || '' %>">
+      <div class="form-check mt-2">
+        <input class="form-check-input" type="checkbox" id="nascimento_estimado" name="nascimento_estimado" <%= animal.nascimento_estimado ? 'checked' : '' %>>
+        <label class="form-check-label" for="nascimento_estimado">Data estimada</label>
+      </div>
+      <%- include('../partials/erro-campo', { campo: 'data_nascimento' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="mae_id">Mãe</label>
+      <select class="form-select campo <%= erros.mae_id ? 'is-invalid' : '' %>" id="mae_id" name="mae_id">
+        <option value="">Não informada</option>
+        <% maes.forEach(function (m) { %><option value="<%= m.id %>" <%= Number(animal.mae_id) === m.id ? 'selected' : '' %>>Nº <%= m.numero %><%= m.nome ? ' · ' + m.nome : '' %></option><% }) %>
+      </select>
+      <%- include('../partials/erro-campo', { campo: 'mae_id' }) %>
+    </div>
+    <div>
+      <label class="form-label" for="brinco">Brinco (opcional)</label>
+      <input class="form-control campo <%= erros.brinco ? 'is-invalid' : '' %>" id="brinco" name="brinco" maxlength="30" value="<%= animal.brinco || '' %>">
+      <%- include('../partials/erro-campo', { campo: 'brinco' }) %>
+    </div>
+    <div class="largura-total">
+      <label class="form-label" for="sinais">Sinais de identificação</label>
+      <input class="form-control campo <%= erros.sinais ? 'is-invalid' : '' %>" id="sinais" name="sinais" maxlength="200" placeholder="Pelagem, marcas, chifres…" value="<%= animal.sinais || '' %>">
+      <%- include('../partials/erro-campo', { campo: 'sinais' }) %>
+    </div>
+    <div class="largura-total">
+      <label class="form-label" for="observacoes">Observações</label>
+      <textarea class="form-control campo" id="observacoes" name="observacoes" rows="2"><%= animal.observacoes || '' %></textarea>
+    </div>
+  </div>
+  <button class="btn btn-acao w-100 mt-3" type="submit">Salvar</button>
+  <a class="btn btn-acao secundario w-100 mt-2" href="<%= animal.id ? '/animais/' + animal.id : '/animais' %>">Cancelar</a>
+</form>
+<%- include('../partials/rodape') %>
