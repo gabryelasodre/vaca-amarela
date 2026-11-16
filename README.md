@@ -8,7 +8,8 @@ Projeto extensionista da disciplina **Programação Web Aplicada** (Análise e D
 
 - Node.js 20+ e Express (servidor, rotas e regras de negócio)
 - EJS (páginas renderizadas no servidor) e Bootstrap 5 (layout responsivo)
-- PostgreSQL 16 (persistência)
+- PostgreSQL 16 (persistência), acessado pela biblioteca postgres.js
+- express-session (sessão guardada no banco) e bcryptjs (senhas)
 - Hospedagem prevista: AWS (EC2 + Amazon RDS for PostgreSQL)
 
 ## Estrutura
@@ -22,9 +23,12 @@ src/
   controllers/      tratamento das requisições (camada Controller)
   models/           acesso aos dados (camada Model)
   views/            páginas EJS (camada View)
+  middlewares/      autenticação e mensagens
+  validacao/        regras de validação dos formulários
 public/             CSS, JavaScript e imagens servidos ao navegador
 db/schema.sql       criação das tabelas
 db/seed.sql         dados FICTÍCIOS para desenvolvimento
+test/               testes de integração (node:test)
 docs/               diagramas e wireframes do projeto
 ```
 
@@ -41,6 +45,27 @@ npm run dev        # http://localhost:3000
 ```
 
 4. Acesse `http://localhost:3000/saude` para conferir a conexão com o banco.
+5. Entre com o usuário fictício `teste@vacaamarela.dev` e a senha `vaca123` (apenas desenvolvimento).
+
+## Testes automatizados
+
+Os testes de integração sobem a aplicação e usam um banco separado (`vaca_amarela_teste`, recriado a cada execução):
+
+```bash
+createdb vaca_amarela_teste        # uma única vez (ou pelo pgAdmin)
+npm test
+```
+
+Para usar outro endereço de banco nos testes, defina `TEST_DATABASE_URL`.
+
+## Funcionalidades disponíveis
+
+| Sprint | Funcionalidade | Requisito |
+|---|---|---|
+| 01 | Estrutura do banco, servidor Express (MVC), rota `/saude`, layout base | RNF01, RNF07 |
+| 02 | Login, sessão e proteção das páginas | RF01, RNF05 |
+| 02 | Cadastro, edição, inativação, busca e filtros de animais; histórico de lotes | RF02, RF03 |
+| 02 | Isolamento dos dados por propriedade | RNF06 |
 
 ## Privacidade
 
