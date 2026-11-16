@@ -1,10 +1,8 @@
 const rebanho = require('../models/rebanhoModel');
 
-const PROPRIEDADE_TESTE = 1;
-
 async function inicio(req, res, next) {
   try {
-    const categorias = await rebanho.resumoPorCategoria(PROPRIEDADE_TESTE);
+    const categorias = await rebanho.resumoPorCategoria(req.session.usuario.propriedadeId);
     const total = categorias.reduce((soma, c) => soma + c.total, 0);
     res.render('paginas/inicio', { titulo: 'Início', ativo: 'inicio', categorias, total });
   } catch (erro) {
@@ -20,4 +18,8 @@ function emConstrucao(req, res) {
   });
 }
 
-module.exports = { inicio, emConstrucao };
+function mais(req, res) {
+  res.render('paginas/mais', { titulo: 'Mais', ativo: 'mais' });
+}
+
+module.exports = { inicio, emConstrucao, mais };

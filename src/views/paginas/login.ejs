@@ -1,0 +1,13 @@
+<%- include('../partials/topo') %>
+<section class="cartao cartao-login">
+  <h1 class="titulo-pagina">Entrar</h1>
+  <% if (erro) { %><div class="aviso-erro" role="alert"><%= erro %></div><% } %>
+  <form method="post" action="/login" novalidate>
+    <label class="form-label" for="email">E-mail</label>
+    <input class="form-control campo" type="email" id="email" name="email" value="<%= email %>" autocomplete="username" required autofocus>
+    <label class="form-label mt-3" for="senha">Senha</label>
+    <input class="form-control campo" type="password" id="senha" name="senha" autocomplete="current-password" required>
+    <button class="btn btn-acao w-100 mt-4" type="submit">Entrar</button>
+  </form>
+</section>
+<%- include('../partials/rodape') %>

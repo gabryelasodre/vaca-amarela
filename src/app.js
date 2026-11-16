@@ -1,18 +1,34 @@
 // Configuração da aplicação Express (padrão MVC).
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const { SessaoPostgres } = require('./config/sessao');
+const { avisos } = require('./middlewares/autenticacao');
 const rotas = require('./routes');
 
 const app = express();
+const producao = process.env.NODE_ENV === 'production';
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+if (producao) app.set('trust proxy', 1);            // atrás do Nginx (HTTPS)
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: '20kb' }));
 app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: '7d' }));
 // Bootstrap servido localmente (sem CDN externa) para reduzir dependência de rede.
 app.use('/vendor/bootstrap',
   express.static(path.join(__dirname, '..', 'node_modules', 'bootstrap', 'dist'), { maxAge: '30d' }));
+
+app.use(session({
+  name: 'vaca.sid',
+  store: new SessaoPostgres(),
+  secret: process.env.SESSION_SECRET || 'apenas-desenvolvimento',
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: { httpOnly: true, sameSite: 'lax', secure: producao, maxAge: 8 * 60 * 60 * 1000 },
+}));
+app.use(avisos);
 
 app.use(rotas);
 

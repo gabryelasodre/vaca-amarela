@@ -8,11 +8,17 @@
   <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body>
+<body class="<%= usuario ? 'logado' : 'publico' %>">
   <header class="barra-topo">
     <div class="container d-flex align-items-center justify-content-between">
       <a class="marca" href="/"><span class="marca-icone" aria-hidden="true"></span>Vaca Amarela</a>
-      <%- include('menu', { classe: 'menu-largo d-none d-md-flex' }) %>
+      <% if (usuario) { %>
+        <%- include('menu', { classe: 'menu-largo d-none d-md-flex' }) %>
+        <span class="propriedade d-md-none" title="<%= usuario.propriedade %>"><%= usuario.propriedade %></span>
+      <% } %>
     </div>
   </header>
   <main class="container conteudo">
+    <% if (aviso) { %>
+      <div class="aviso-sucesso" role="status">✓ <%= aviso %></div>
+    <% } %>

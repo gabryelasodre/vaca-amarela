@@ -1,0 +1,11 @@
+<%- include('../partials/topo') %>
+<h1 class="titulo-pagina">Mais</h1>
+<section class="cartao">
+  <p class="rotulo mb-1">Conectado como</p>
+  <p class="mb-0"><strong><%= usuario.nome %></strong><br><span class="text-muted"><%= usuario.propriedade %></span></p>
+</section>
+<div class="acoes-rapidas">
+  <a class="btn btn-acao secundario" href="/lotes">Lotes</a>
+  <form method="post" action="/sair"><button class="btn btn-acao w-100" type="submit">Sair</button></form>
+</div>
+<%- include('../partials/rodape') %>
