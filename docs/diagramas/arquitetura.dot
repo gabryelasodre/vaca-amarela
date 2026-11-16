@@ -13,8 +13,8 @@ digraph arq {
       nginx [label="Nginx\nHTTPS (Let's Encrypt)\ncompressão gzip e cache\nde CSS/JS", fillcolor="#F3F3F3"];
       subgraph cluster_node { label="Node.js 20 + Express  (processo mantido pelo PM2)"; style="rounded"; color="#555555";
         rotas [label="Rotas\n(routes/)"];
-        ctrl  [label="Controllers\nvalidação, regras (GMD,\nalertas), propriedade\ndo usuário logado"];
-        model [label="Models\nSQL parametrizado\n(biblioteca pg)"];
+        ctrl  [label="Middlewares + Controllers\nsessão e login (express-session),\nvalidação, regras e\npropriedade do usuário logado"];
+        model [label="Models\nSQL parametrizado\n(biblioteca postgres.js)"];
         views [label="Views EJS + Bootstrap\nHTML renderizado\nno servidor"];
       }
     }
